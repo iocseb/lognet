@@ -1,10 +1,12 @@
 # lognet
 > Write a log of network activity
 
-This program monitors all processes of the system for network connections and writes logs to /var/log/netlog/. This log can be helpful in multiple ways:
+This program monitors all processes of a system for network connections and writes logs to /var/log/netlog/. These logs can be helpful as:
 - additional forensic information
 - base info for configuring firewalls
 - troubleshooting info
+
+This project makes use of Giampaolo Rodola's great work on the PSUTIL (https://github.com/giampaolo/psutil) library.
 
 ## Installing / Getting started
 The only external library that is being used in this project is PSUTIL (https://github.com/giampaolo/psutil). You can install it with:
