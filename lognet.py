@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Importing required standard libraries
 import argparse
 import logging
