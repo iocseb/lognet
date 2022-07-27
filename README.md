@@ -9,7 +9,7 @@ This program monitors all processes of a system for network connections and writ
 This project makes use of Giampaolo Rodola's great work on the PSUTIL (https://github.com/giampaolo/psutil) library.
 
 ## Installing / Getting started
-The only external library that is being used in this project is PSUTIL (https://github.com/giampaolo/psutil). You can install it with:
+The only external library that is being used in this project is [PSUTIL](https://github.com/giampaolo/psutil). You can install it with:
 ```commandline
 pip3 install psutil
 ```
