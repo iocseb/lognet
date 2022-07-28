@@ -3,10 +3,7 @@
 
 [![Python package](https://github.com/iocseb/lognet/actions/workflows/python-package.yml/badge.svg)](https://github.com/iocseb/lognet/actions/workflows/python-package.yml)
 
-This program monitors all processes of a system and logs open network connections. These logs can be helpful as:
-- additional forensic information
-- base info for configuring firewalls
-- troubleshooting info
+This program monitors all processes of a system and logs open network connections.
 
 Example output connections.log:
 ```commandline
