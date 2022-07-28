@@ -1,12 +1,34 @@
 # lognet
 > Write a log of network activity
 
-This program monitors all processes of a system for network connections and writes logs to /var/log/netlog/. These logs can be helpful as:
+[![Python package](https://github.com/iocseb/lognet/actions/workflows/python-package.yml/badge.svg)](https://github.com/iocseb/lognet/actions/workflows/python-package.yml)
+
+This program monitors all processes of a system and logs open network connections. These logs can be helpful as:
 - additional forensic information
 - base info for configuring firewalls
 - troubleshooting info
 
-This project makes use of Giampaolo Rodola's great work on the PSUTIL (https://github.com/giampaolo/psutil) library.
+Example output connections.log:
+```commandline
+#Version: 1.0
+#Date: 2022-07-27 22:23:15
+#Fields: timestamp prot laddr lport raddr rport status upid
+2022-07-27|22:23:15 TCP :: 17500 - - LISTEN dropbox|4312|1658892270.25
+2022-07-27|22:23:15 TCP 192.168.1.210 40100 104.244.42.66 443 ESTABLISHED vivaldi-bin|5545|1658892385.62
+2022-07-27|22:23:15 TCP 192.168.1.210 60948 162.125.19.130 443 ESTABLISHED dropbox|4312|1658892270.25
+```
+
+Example output processes.log:
+```commandline
+#Version: 1.0
+#Date: 2022-07-27 22:23:15
+#Fields: timestamp upid [command_line with parameters]
+2022-07-27|22:23:15 dropbox|4312|1658892270.25 ['/home/seb/.dropbox-dist/dropbox-lnx.x86_64-153.4.3932/dropbox']
+2022-07-27|22:23:15 vivaldi-bin|5545|1658892385.62 ['/opt/vivaldi/vivaldi-bin', '--type=utility', '--utility-sub-type=network.mojom.NetworkService', '--lang=en-US', '--running-vivaldi', '--service-sandbox-type=none', '--enable-crashpad', '--crashpad-handler-pid=5512', '--enable-crash-reporter=,stable', '--change-stack-guard-on-fork=enable', '--shared-files=v8_context_snapshot_data:100', '--field-trial-handle=0,i,10435697725548645268,16928217919358384190,131072', '--enable-crashpad']
+2022-07-27|22:23:15 python3|39817|1658985795.47 ['python3', 'lognet/lognet.py']
+```
+
+This project is built on top of Giampaolo Rodola's great work on the [PSUTIL](https://github.com/giampaolo/psutil) library.
 
 ## Installing / Getting started
 The only external library that is being used in this project is [PSUTIL](https://github.com/giampaolo/psutil). You can install it with:
