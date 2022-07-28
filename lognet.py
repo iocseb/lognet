@@ -303,7 +303,7 @@ def check_connections(args) -> bool:
         return False
 
 
-def get_argument_parser():
+def get_argument_parser() -> object:
     # helper function to add command line arguments
 
     argument_parser = argparse.ArgumentParser()
@@ -328,6 +328,7 @@ def get_argument_parser():
 if __name__ == '__main__':
 
     arguments = get_argument_parser()
+    # TODO: Check for /var/log/lognet/ existence and access
     connection_logger = create_conn_logger(arguments.clog)
     process_logger = create_proc_logger(arguments.plog)
 
