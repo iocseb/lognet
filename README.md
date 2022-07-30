@@ -25,14 +25,14 @@ Example output processes.log:
 2022-07-27|22:23:15 python3|39817|1658985795.47 ['python3', 'lognet/lognet.py']
 ```
 
-This project is built on top of Giampaolo Rodola's great work on the [PSUTIL](https://github.com/giampaolo/psutil) library.
+This project is standing on the shoulders of Giampaolo Rodola's great work on the [PSUTIL](https://github.com/giampaolo/psutil) library.
 
 ## Installing / Getting started
 The only external library that is being used in this project is [PSUTIL](https://github.com/giampaolo/psutil). You can install it with:
 ```commandline
-pip3 install psutil
+pip3 install -r requirements.txt
 ```
-Once you have installed psutil into your (virtual) runtime environment, you can start lognet with:
+Once you have installed the requirements into your (virtual) runtime environment, you can start lognet with:
 ```commandline
 python3 lognet.py
 ```
