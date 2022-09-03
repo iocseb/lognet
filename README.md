@@ -71,4 +71,4 @@ At the moment the code expects to have write-access to /var/log/netlog, and it a
 Within the use case of this code, RFC1918 (private subnets) really only matters for IPv4 (NAT isn't used in IPv6 environments all that much) networks. Therefore, the "--omit-privnet-conns" switch is implemented for IPv4 only. 
 
 ## Licensing
-"The code in this project is licensed under MIT license."
+The code in this project is licensed under MIT license.

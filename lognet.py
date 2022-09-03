@@ -18,6 +18,57 @@ new_connections = []
 new_processes = []
 
 
+def get_argument_parser() -> object:
+    # helper function to add command line arguments
+
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument("-i", type=float,default=3,
+                                 help="interval (in seconds) for connection enumeration (default: 3s)")
+    argument_parser.add_argument("-clog", type=str, default="/var/log/netlog/connections.log",
+                                 help="output file for connections log (default: /var/log/netlog/connections.log)")
+    argument_parser.add_argument("-plog", type=str, default="/var/log/netlog/processes.log",
+                                 help="output file for processes list (default: /var/log/netlog/processes.log)")
+    argument_parser.add_argument("-ipv", type=int, choices=[4, 6],
+                                 help="filters by internet protocol version (if omitted, it includes both)")
+    argument_parser.add_argument("-p", type=str, choices=["udp", "tcp"],
+                                 help="filters by protocol (if omitted, it includes both)")
+    argument_parser.add_argument("--omit-self-conns", action="store_true",
+                                 help="omits connections without remote address")
+    argument_parser.add_argument("--omit-privnet-conns", action="store_true",
+                                 help="omits connections to private networks")
+
+    return argument_parser.parse_args()
+
+
+def test_path(clog, plog):
+    # Function checks existence and write-access to logging folder
+    # TODO: Use an actual PATH object instead of handling STR objects
+
+    # Extract folder-path from logfile-path
+    clog_path = clog[::-1].split('/', 1)[1][::-1]
+    clog_file = clog[::-1].split('/', 1)[0][::-1]
+    plog_path = plog[::-1].split('/', 1)[1][::-1]
+    plog_file = plog[::-1].split('/', 1)[0][::-1]
+
+    if os.access(clog_path, os.X_OK | os.W_OK):
+        print('INFO: Write-Access to Connection-Log Folder (' + clog_path + ') tested successfully.')
+        clog_filepath = clog_path + '/' + clog_file
+    else:
+        print('WARNING: Write-Access test to Connection-Log Folder (' + clog_path + ') failed.')
+        print('Falling back to script-folder. (filename: ' + clog_file + ')')
+        clog_filepath = clog_file
+
+    if os.access(plog_path, os.X_OK | os.W_OK):
+        print('INFO: Write-Access to Process-Log Folder (' + plog_path + ') tested successfully.')
+        plog_filepath = plog_path + '/' + plog_file
+    else:
+        print('WARNING: Write-Access test to Process-Log Folder (' + plog_path + ') failed.')
+        print('Falling back to script-folder. (filename: ' + plog_file + ')')
+        plog_filepath = plog_file
+
+    return [clog_filepath, plog_filepath]
+
+
 def create_conn_logger(output_file):
     # Function creates Logging Object and File Handler for Connections
     # /var/log/netlog/ needs to exist and the user running this script requires write permissions
@@ -303,31 +354,11 @@ def check_connections(args) -> bool:
         return False
 
 
-def get_argument_parser() -> object:
-    # helper function to add command line arguments
-
-    argument_parser = argparse.ArgumentParser()
-    argument_parser.add_argument("-i", type=float,default=3,
-                                 help="interval (in seconds) for connection enumeration (default: 3s)")
-    argument_parser.add_argument("-clog", type=str, default="/var/log/netlog/connections.log",
-                                 help="output file for connections log (default: /var/log/netlog/connections.log)")
-    argument_parser.add_argument("-plog", type=str, default="/var/log/netlog/processes.log",
-                                 help="output file for processes list (default: /var/log/netlog/processes.log)")
-    argument_parser.add_argument("-ipv", type=int, choices=[4, 6],
-                                 help="filters by internet protocol version (if omitted, it includes both)")
-    argument_parser.add_argument("-p", type=str, choices=["udp", "tcp"],
-                                 help="filters by protocol (if omitted, it includes both)")
-    argument_parser.add_argument("--omit-self-conns", action="store_true",
-                                 help="omits connections without remote address")
-    argument_parser.add_argument("--omit-privnet-conns", action="store_true",
-                                 help="omits connections to private networks")
-
-    return argument_parser.parse_args()
-
-
 if __name__ == '__main__':
 
     arguments = get_argument_parser()
+    print(test_path(arguments.clog, arguments.plog))
+    quit()
     # TODO: Check for /var/log/lognet/ existence and access
     connection_logger = create_conn_logger(arguments.clog)
     process_logger = create_proc_logger(arguments.plog)
